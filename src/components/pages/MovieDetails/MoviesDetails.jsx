@@ -1,11 +1,10 @@
-import s from './MovieDetailsPage.module.css';
+import s from './Movies.module.css';
 
 import { useEffect, useState } from 'react';
 import { NavLink, Outlet, useLocation, useNavigate } from 'react-router-dom';
 import { useParams } from 'react-router-dom';
 import { fetchMoviesDetails } from 'Api/api';
-// import { createBrowserHistory } from 'history';
-import PageHeading from 'components/Pageheading/Pageheading';
+import PageHeading from 'components/pages/MoviesPage/Pageheading';
 
 export default function MovieDetailsPage() {
   const [movie, setMovie] = useState(null);
@@ -15,13 +14,11 @@ export default function MovieDetailsPage() {
   const getYear = () => new Date(movie.release_date).getFullYear();
 
   const { movieId } = useParams();
-  // let history = createBrowserHistory();
   const location = useLocation();
   const navigate = useNavigate();
-  console.log(location);
 
   let activeClassName = {
-    color: '#fff',
+    color: '#0000',
   };
 
   const handleClick = () => navigate(location?.state?.from ?? '/');
@@ -34,7 +31,6 @@ export default function MovieDetailsPage() {
       })
       .catch(error => {
         setError('Ooops. Something went wrong...');
-        console.log(error);
       })
       .finally(() => setLoading(false));
   }, [movieId]);
@@ -47,7 +43,6 @@ export default function MovieDetailsPage() {
         </button>
 
         {movie && <PageHeading text={movie.title} />}
-        {/* <h2>Movie Review</h2> */}
         {loading && 'Loading ...'}
         {error && <div>{error}</div>}
         {movie && (
@@ -68,6 +63,7 @@ export default function MovieDetailsPage() {
         <hr className={s.hr}/>
         <div>
           <h2>Additional Information</h2>
+          <div className={s. but_det}>
           <NavLink
             to={`/movies/${movieId}/reviews`}
             style={({ isActive }) => (isActive ? activeClassName : undefined)}
@@ -75,7 +71,6 @@ export default function MovieDetailsPage() {
           >
             <p className={s.reviews}>Reviews</p>
           </NavLink>
-
           <NavLink
             to={`/movies/${movieId}/cast`}
             style={({ isActive }) => (isActive ? activeClassName : undefined)}
@@ -83,6 +78,7 @@ export default function MovieDetailsPage() {
           >
             <p className={s.cast}>Cast</p>
           </NavLink>
+          </div>
           <hr className={s.hr}/>
           <Outlet />
         </div>

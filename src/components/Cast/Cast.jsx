@@ -2,12 +2,13 @@
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { fetchMoviesCredits } from 'Api/api';
+import NotFoundView from '../pages/NotFoundPage/NotFoundView';
 
 import style from './Cast.module.css';
-const Cast = () => {
+const MovieCast = () => {
   const { movieId } = useParams();
 
-  const [cast, setCast] = useState([]);
+  const [movieCast, setCast] = useState([]);
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
 
@@ -29,25 +30,34 @@ const Cast = () => {
   return (
     <>
       {loading && 'Loading...'}
-      {error && <div>{error}</div>}
+      {error && <NotFoundView/>}
+      {movieCast.length ? (
       <ul className={style.castList}>
-        {cast.map(castItem => {
-          return (
-            <li key={castItem.id} className={style.castItem}>
+          {movieCast.slice(0, 12).map(castItem => (
+            <li key={castItem.cast_id} className={style.castItem}>
               <img
-                src={`https://image.tmdb.org/t/p/w300${castItem.profile_path}`}
-                alt={`${castItem.name} portrait`}
+                src={
+                  castItem.profile_path
+                    ? `https://image.tmdb.org/t/p/w200/${castItem.profile_path}`
+                    : `../../images/broken_img.png`
+                }
+                alt={`${castItem.name}`}
               />
               <div>
-                <p>Name: {castItem.name}</p>
-                <p>Character: {castItem.character}</p>
+                <p>{castItem.name}</p>
+                <p>
+                  Character:
+                  <span>{castItem.character}</span>
+                </p>
               </div>
             </li>
-          );
-        })}
-      </ul>
+          ))}
+        </ul>
+      ) : (
+        <p>No results</p>
+      )}
     </>
   );
 };
 
-export default Cast;
+export default MovieCast;

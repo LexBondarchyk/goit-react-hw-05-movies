@@ -1,10 +1,10 @@
 import { useLocation } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import { useSearchParams } from 'react-router-dom';
-import SearchBar from 'components/MoviesPage/SearchBar';
+import SearchBar from 'components/pages/Search/Search';
 import { fetchByQuery } from 'Api/api';
-import MovieList from 'components/TrendingMovies/MovieList';
-import PageHeading from 'components/Pageheading/Pageheading';
+import MovieList from 'components/Movies/MovieList';
+import PageHeading from 'components/pages/MoviesPage/Pageheading';
 
 const MoviesPage = () => {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -32,14 +32,12 @@ const MoviesPage = () => {
         })
         .catch(error => {
           setError('Ooops. Something went wrong...');
-          console.log(error);
         })
         .finally(setLoading(false));
     };
     fetchMovie();
   }, [searchRequest]);
 
-  // onSubmit
   function onSubmit(value) {
     setSearchParams({ query: `${value}` });
   }
@@ -48,7 +46,6 @@ const MoviesPage = () => {
     <>
       <div>
         <PageHeading text={'Movie Search'} />
-        {/* <h1>Movies search</h1> */}
         {loading && 'Loading ...'}
         {error && <div>{error}</div>}
 

@@ -1,20 +1,16 @@
 .backButton {
   width: 100%;
-  margin-left: auto;
-  margin-right: auto;
+  justify-content: center;
   padding: 8px 16px;
-  background-image: linear-gradient(315deg, #1fd1f9 0%, #7a7a79 70%);
-  background-color: #3f51b5;
   transition: all 250ms cubic-bezier(0.4, 0, 0.2, 1);
   text-align: center;
   display: inline-block;
-  border: 0;
+  border: 1px;
   text-decoration: none;
   cursor: pointer;
   font-family: inherit;
   font-size: 18px;
   line-height: 24px;
-  font-style: normal;
   font-weight: 500;
   min-width: 180px;
   box-shadow: 0px 3px 1px -2px rgba(0, 0, 0, 0.2),
@@ -23,15 +19,12 @@
 
 .backButton:hover {
   background-color: #2196f3;
-  color: white;
+  color: rgb(0, 0, 0);
 }
 
 .reviews {
-
+  color:#2196f3;
   padding: 8px 16px;
-  border-radius: 12px;
-  background-image: linear-gradient(315deg, #1fd1f9 0%, #7a7a79 70%);
-  background-color: #3f51b5;
   transition: all 250ms cubic-bezier(0.4, 0, 0.2, 1);
   text-align: center;
   display: inline-block;
@@ -50,9 +43,7 @@
 
 .cast {
   padding: 8px 16px;
-  border-radius: 12px;
-  background-image: linear-gradient(315deg, #1fd1f9 0%, #7a7a79 70%);
-  background-color: #3f51b5;
+  color: #000;
   transition: all 250ms cubic-bezier(0.4, 0, 0.2, 1);
   text-align: center;
   display: inline-block;
@@ -71,13 +62,49 @@
 
 .reviews:hover,
 .cast:hover {
-  background: linear-gradient(315deg, #7a7a79 0%, #1fd1f9 70%,);
-  box-shadow:  4px 4px 6px 0 rgba(255,255,255,.5),
-              -4px -4px 6px 0 rgba(116, 125, 136, .2), 
-    inset -4px -4px 6px 0 rgba(255,255,255,.5),
-    inset 4px 4px 6px 0 rgba(116, 125, 136, .3);
-    color:  #020204;
+  background-color: #2196f3;
+  color: rgb(3, 3, 3);
 }
 .hr {
   width: 100%;;
 }
+/* .backButton {
+  cursor: pointer;
+  width: 80px;
+  text-align: center;
+  font-weight: bold;
+  padding: 8px 15px;
+  margin-bottom: 15px;
+  box-shadow: 1px 2px 2px 0 rgb(0, 0, 0/0.5);
+  transition: box-shadow 250ms linear;
+  border-radius: 10px;
+  border: 1px solid #2196f3;
+}
+
+.backButton:hover {
+  background-color: #2196f3;
+  color: white;
+}
+
+.reviews {
+  display: inline-block;
+  padding: 8px 15px;
+  border-radius: 10px;
+  border: 1px solid #2196f3;
+  margin-right: 30px;
+  font-weight: bold;
+}
+
+.cast {
+  display: inline-block;
+  padding: 8px 28px;
+  border-radius: 10px;
+  border: 1px solid #2196f3;
+  font-weight: bold;
+}
+
+.reviews:hover,
+.cast:hover {
+  background-color: #2196f3;
+  color: white;
+} */

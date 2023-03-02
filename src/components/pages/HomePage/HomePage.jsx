@@ -1,10 +1,8 @@
-// import SearchBar from 'components/MoviesPage/MoviesPage';
-
-import PageHeading from 'components/Pageheading/Pageheading';
-import MovieList from 'components/TrendingMovies/MovieList';
+import styles from './HomePage.module.css';
+import MovieList from 'components/Movies/MovieList';
 import { useEffect, useState } from 'react';
 import { getMovies } from 'Api/api';
-import NotFoundView from 'ui/NotFoundView';
+import NotFoundView from 'components/pages/NotFoundPage/NotFoundView';
 import Notiflix from 'notiflix';
 
 
@@ -23,8 +21,7 @@ export default function GetTrendingMovies() {
         })
         .catch(error => {
           setError('Ooops. Something went wrong...');
-          console.log(error);
-        })
+         })
         .finally(() => setLoading(false));
     };
     fetchTrendingMovies();
@@ -34,7 +31,7 @@ export default function GetTrendingMovies() {
   return (
     <>
       <div>
-        <PageHeading text={'Trending Movies'}></PageHeading>
+        <h1 className={styles.title}>Trending Movies</h1>
         {(loading && Notiflix.Loading.pulse()) ||
         (!loading && Notiflix.Loading.remove())}
         {isNotFound && <NotFoundView />}
