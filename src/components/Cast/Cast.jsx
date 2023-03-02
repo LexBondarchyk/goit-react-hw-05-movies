@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { fetchMoviesCredits } from 'Api/api';
 import NotFoundView from '../pages/NotFoundPage/NotFoundView';
+import Faceless from '../../images/broken_img.png';
 
 import style from './Cast.module.css';
 const MovieCast = () => {
@@ -39,7 +40,7 @@ const MovieCast = () => {
                 src={
                   castItem.profile_path
                     ? `https://image.tmdb.org/t/p/w200/${castItem.profile_path}`
-                    : `../../images/broken_img.png`
+                    : Faceless
                 }
                 alt={`${castItem.name}`}
               />
