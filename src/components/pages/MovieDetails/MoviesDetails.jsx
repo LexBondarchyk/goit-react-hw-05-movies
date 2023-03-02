@@ -63,7 +63,7 @@ export default function MovieDetailsPage() {
         <hr className={s.hr}/>
         <div>
           <h2>Additional Information</h2>
-          <div className={s. but_det}>
+          <div className={s.but_det}>
           <NavLink
             to={`/movies/${movieId}/reviews`}
             style={({ isActive }) => (isActive ? activeClassName : undefined)}
