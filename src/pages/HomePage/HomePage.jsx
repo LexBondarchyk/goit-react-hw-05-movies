@@ -20,7 +20,7 @@ export default function HomePage() {
         setLoading(true);
       const res = await getMovies(movieId)
       if (res.length === 0 ) {
-        Notiflix.Notify.failure('No found actors!');
+        Notiflix.Notify.failure('No found Movies');
       }
       setMovies(res);
     } catch (error) {
