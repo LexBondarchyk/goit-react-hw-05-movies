@@ -2,22 +2,24 @@
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { fetchMoviesCredits } from 'Api/api';
-import NotFoundView from '../pages/NotFoundPage/NotFoundView';
 import Faceless from '../../images/broken_img.png';
+import Notiflix from 'notiflix';
 
 import style from './Cast.module.css';
 const MovieCast = () => {
-  const { movieId } = useParams();
-
-  const [movieCast, setCast] = useState([]);
+  const [cast, setCast] = useState(null);
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
+  const { movieId } = useParams();
 
   useEffect(() => {
     const fetchCast = async () => {
       try {
         setLoading(true);
         const res = await fetchMoviesCredits(movieId);
+        if (res.length === 0 ) {
+          Notiflix.Notify.failure('No found actors!');
+        }
         setCast(res);
       } catch (error) {
         setError('Ooops. Something went wrong...');
@@ -30,11 +32,11 @@ const MovieCast = () => {
 
   return (
     <>
-      {loading && 'Loading...'}
-      {error && <NotFoundView/>}
-      {movieCast.length ? (
+      {loading ? Notiflix.Loading.pulse() : Notiflix.Loading.remove()}
+      {error && Notiflix.Notify.failure(`${error}`)}
+      {cast && (
       <ul className={style.castList}>
-          {movieCast.slice(0, 12).map(castItem => (
+          {cast.slice(0, 12).map(castItem => (
             <li key={castItem.cast_id} className={style.castItem}>
               <img
                 src={
@@ -54,8 +56,7 @@ const MovieCast = () => {
             </li>
           ))}
         </ul>
-      ) : (
-        <p>No results</p>
+      
       )}
     </>
   );

@@ -1,38 +1,46 @@
-import s from './Movies.module.css';
+import s from './MoviesDetails.module.css';
 
 import { useEffect, useState } from 'react';
 import { NavLink, Outlet, useLocation, useNavigate } from 'react-router-dom';
 import { useParams } from 'react-router-dom';
 import { fetchMoviesDetails } from 'Api/api';
-import PageHeading from 'components/pages/MoviesPage/Pageheading';
+import PageHeading from 'components/PageHeading/Pageheading';
+import Notiflix from 'notiflix';
+import WithoutPost from '../../images/facelessposter.png';
 
 export default function MovieDetailsPage() {
   const [movie, setMovie] = useState(null);
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
-
-  const getYear = () => new Date(movie.release_date).getFullYear();
-
   const { movieId } = useParams();
   const location = useLocation();
   const navigate = useNavigate();
 
+  const getYear = () => new Date(movie.release_date).getFullYear();
+
+
   let activeClassName = {
     color: '#0000',
   };
-
-  const handleClick = () => navigate(location?.state?.from ?? '/');
+const linkBack = location?.state?.from ?? '/';
+  const handleClick = () => navigate(linkBack);
 
   useEffect(() => {
+  const fetchMovie = async () => {
+    try {
     setLoading(true);
-    fetchMoviesDetails(movieId)
-      .then(res => {
-        setMovie(res);
-      })
-      .catch(error => {
-        setError('Ooops. Something went wrong...');
-      })
-      .finally(() => setLoading(false));
+    const res = await fetchMoviesDetails(movieId);
+    if (res.length === 0 ) {
+      Notiflix.Notify.failure('No found details');
+    }
+    setMovie(res);
+  } catch (error) {
+    setError('Ooops. Something went wrong...');
+  } finally {
+    setLoading(false);
+  }
+};
+fetchMovie();
   }, [movieId]);
 
   return (
@@ -43,12 +51,12 @@ export default function MovieDetailsPage() {
         </button>
 
         {movie && <PageHeading text={movie.title} />}
-        {loading && 'Loading ...'}
-        {error && <div>{error}</div>}
-        {movie && (
+        {loading ? Notiflix.Loading.pulse() : Notiflix.Loading.remove()}
+        {error && Notiflix.Notify.failure(`${error}`)}
+         {movie && (
           <div>
             <img
-              src={`https://image.tmdb.org/t/p/w200/${movie.poster_path}`}
+              src={movie.poster_path ? `https://image.tmdb.org/t/p/w200/${movie.poster_path}` : WithoutPost}
               alt={movie.title}
             />
             <h3>{movie.title}</h3>
@@ -65,16 +73,16 @@ export default function MovieDetailsPage() {
           <h2>Additional Information</h2>
           <div className={s.but_det}>
           <NavLink
-            to={`/movies/${movieId}/reviews`}
+            to= 'reviews'
             style={({ isActive }) => (isActive ? activeClassName : undefined)}
-            state={location.state}
+            state={{from: linkBack}}
           >
             <p className={s.reviews}>Reviews</p>
           </NavLink>
           <NavLink
-            to={`/movies/${movieId}/cast`}
+            to='cast'
             style={({ isActive }) => (isActive ? activeClassName : undefined)}
-            state={location.state}
+            state={{from: linkBack}}
           >
             <p className={s.cast}>Cast</p>
           </NavLink>

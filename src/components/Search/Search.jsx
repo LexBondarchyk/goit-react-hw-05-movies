@@ -1,6 +1,7 @@
-import styles from './MoviesPage.module.css';
+import styles from './Search.module.css';
 import { useState } from 'react';
 import PropTypes from 'prop-types';
+import Notiflix from 'notiflix';
 
 const SearchBar = ({ onSearch }) => {
   const [searchQuery, setSearchQuery] = useState('');
@@ -13,7 +14,7 @@ const SearchBar = ({ onSearch }) => {
   const handleSubmit = e => {
     e.preventDefault();
     if (searchQuery.trim() === '') {
-      alert('Enter the film title');
+      Notiflix.Notify.failure('Enter the film title')
     }
 
     onSearch(searchQuery);

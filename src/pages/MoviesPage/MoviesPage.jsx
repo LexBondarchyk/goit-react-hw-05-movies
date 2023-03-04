@@ -1,18 +1,18 @@
-import { useLocation } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import { useSearchParams } from 'react-router-dom';
-import SearchBar from 'components/pages/Search/Search';
+import SearchBar from 'components/Search/Search';
 import { fetchByQuery } from 'Api/api';
-import MovieList from 'components/Movies/MovieList';
-import PageHeading from 'components/pages/MoviesPage/Pageheading';
+import MovieList from 'components/MoviesList/MovieList';
+import PageHeading from 'components/PageHeading/Pageheading';
+import Notiflix from 'notiflix';
 
 const MoviesPage = () => {
   const [searchParams, setSearchParams] = useSearchParams();
-  const [movies, setMovies] = useState([]);
+  const [movies, setMovies] = useState(null);
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
 
-  const location = useLocation();
+
   const searchRequest = searchParams.get('query');
 
   useEffect(() => {
@@ -20,21 +20,20 @@ const MoviesPage = () => {
       return;
     }
 
-    const fetchMovie = () => {
-      setLoading(true);
-      fetchByQuery(searchRequest)
-        .then(results => {
-          if (!results.length) {
-            alert('No movies found!');
-          }
-
-          setMovies(results);
-        })
-        .catch(error => {
+    const fetchMovie = async () => {
+      try {
+      setLoading(true)
+      const res = await fetchByQuery(searchRequest);
+      if (res.length === 0 ) {
+        Notiflix.Notify.failure('No found reviews!');
+      }
+          setMovies(res);
+        }catch (error) {
           setError('Ooops. Something went wrong...');
-        })
-        .finally(setLoading(false));
-    };
+        } finally {
+          setLoading(false);
+        }
+      };
     fetchMovie();
   }, [searchRequest]);
 
@@ -46,11 +45,11 @@ const MoviesPage = () => {
     <>
       <div>
         <PageHeading text={'Movie Search'} />
-        {loading && 'Loading ...'}
-        {error && <div>{error}</div>}
+        {loading ? Notiflix.Loading.pulse() : Notiflix.Loading.remove()}
+        {error && Notiflix.Notify.failure(`${error}`)}
 
         <SearchBar onSearch={onSubmit} />
-        {movies && <MovieList movies={movies} prevLocation={location} />}
+        {movies && <MovieList movies={movies} />}
       </div>
     </>
   );
